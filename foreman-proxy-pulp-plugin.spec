@@ -51,7 +51,7 @@ Pulp support for Foreman-Proxy
 rm -rf %{buildroot}
 install -d -m0755 %{buildroot}%{_datadir}/%{name}
 install -d -m0755 %{buildroot}%{_sysconfdir}/foreman-proxy
-install -d -m0755 %{buildroot}%{_sysconfdir}/foreman-proxy/%{settingsdir}
+install -d -m0755 %{buildroot}%{_sysconfdir}/foreman-proxy/settings.d
 
 cp -p -r lib bundler.d %{buildroot}%{_datadir}/%{name}
 rm -rf %{buildroot}%{_datadir}/%{name}/*.rb
@@ -60,13 +60,15 @@ rm -rf %{buildroot}%{_datadir}/%{name}/*.rb
 find %{buildroot}%{_datadir}/%{name} -type d -name "test" |xargs rm -rf
 
 # Move config files to %{_sysconfdir}
-install -Dp -m0644 settings.d/pulp.yml.example %{buildroot}%{_sysconfdir}/%{name}/settings.d/pulp.yml
+install -Dp -m0644 settings.d/pulp.yml.example %{buildroot}%{_sysconfdir}/foreman-proxy/settings.d/pulp.yml
 
 %clean
 rm -rf %{buildroot}
 
 %files
 %doc LICENSE
+%{_datadir}/%{name}
+%config(noreplace) %{_sysconfdir}/foreman-proxy/settings.d
 
 %changelog
 
