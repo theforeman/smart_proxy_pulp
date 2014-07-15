@@ -1,0 +1,1 @@
+gem 'smart_proxy_pulp_plugin', :path => '/home/wb/sandbox/smart-proxy-pulp-plugin'
