@@ -14,7 +14,7 @@ Gem::Specification.new do |gem|
     Basic Pulp support for Foreman Smart-Proxy
   EOS
 
-  gem.files         = `git ls-files`.split($/) - ['foreman-proxy-pulp-plugin.spec', 'smart_proxy_pulp_plugin.gemspec']
+  gem.files         = Dir['{bundler.d,lib,settings.d}/**/*', 'LICENSE', 'Gemfile']
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
   gem.license = 'GPLv3'
