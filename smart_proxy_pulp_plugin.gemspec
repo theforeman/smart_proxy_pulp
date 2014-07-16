@@ -9,16 +9,19 @@ Gem::Specification.new do |gem|
   gem.authors       = ['Dmitri Dolguikh']
   gem.email         = ['dmitri@redhat.com']
   gem.homepage      = "https://github.com/witlessbird/smart-proxy-pulp-plugin"
-  gem.summary       = %q{Basic integration with Pulp}
+  gem.summary       = %q{Basic Pulp support for Foreman Smart-Proxy}
   gem.description   = <<-EOS
-    Basic integration with Pulp
+    Basic Pulp support for Foreman Smart-Proxy
   EOS
 
-  gem.files         = `git ls-files`.split($/)
+  gem.files         = `git ls-files`.split($/) - ['foreman-proxy-pulp-plugin.spec', 'smart_proxy_pulp_plugin.gemspec']
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
+  gem.license = 'GPLv3'
 
   # todo: add a runtime dependency on smart-proxy
-  gem.add_development_dependency('test-unit')
-  gem.add_development_dependency('rake')
+  gem.add_development_dependency('test-unit', '~> 0')
+  gem.add_development_dependency('rake', '~> 0')
 end
+
+

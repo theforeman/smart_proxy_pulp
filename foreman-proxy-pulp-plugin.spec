@@ -1,74 +1,76 @@
-%global homedir %{_datadir}/%{name}
+%global gem_name smart_proxy_pulp_plugin
 
-%if "%{?scl}" == "ruby193"
-    %global scl_prefix %{scl}-
-    %global scl_ruby /usr/bin/ruby193-ruby
-%else
-    %global scl_ruby /usr/bin/ruby
-%endif
+%{?scl:%scl_package rubygem-%{gem_name}}
+%{!?scl:%global pkg_name %{name}}
 
-Name:           foreman-proxy-pulp-plugin
-Version:        0.1
-Release:        0.develop%{dist}
-Summary:        Pulp support for Foreman-Proxy
+Summary: Basic Pulp support for Foreman Smart-Proxy
+Name: %{?scl_prefix}rubygem-%{gem_name}
+Version: 0.3
+Release: 2%{?dist}
+Group: Applications/System
+License: GPLv3
+URL: https://github.com/witlessbird/smart-proxy-pulp-plugin
+Source0: http://rubygems.org/downloads/%{gem_name}-%{version}.gem
 
-Group:          Applications/System
-License:        GPLv3+
-URL:            http://theforeman.org/projects/smart-proxy
-Source0:        http://downloads.theforeman.org/%{name}/%{name}-%{version}.tar.bz2
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildArch:      noarch
+Requires: %{?scl_prefix}ruby(rubygems)
 
 %if "%{?scl}" == "ruby193" || (0%{?rhel} == 6 && "%{?scl}" == "")
-Requires: %{?scl_prefix}ruby(abi)
+Requires:      %{?scl_prefix}ruby(abi)
+BuildRequires: %{?scl_prefix}ruby(abi)
+BuildRequires: %{?scl_prefix}rubygems-devel
 %else
-Requires: %{?scl_prefix}ruby(release)
+Requires:      %{?scl_prefix}ruby(release)
+BuildRequires: %{?scl_prefix}ruby(release)
+BuildRequires: %{?scl_prefix}rubygems-devel
 %endif
 
-Requires:       %{?scl_prefix}rubygems
-Requires:       %{?scl_prefix}rubygem(rake) >= 0.8.3
-Requires:       %{?scl_prefix}rubygem(sinatra)
-Requires:       foreman-proxy
+BuildRequires: %{?scl_prefix}ruby(rubygems)
+BuildArch: noarch
+
+Provides: %{?scl_prefix}rubygem(%{gem_name}) = %{version}
 
 %description
-Pulp support for Foreman-Proxy
+Basic Pulp support for Foreman Smart-Proxy.
+
+%package doc
+BuildArch:  noarch
+Requires:   %{gem_name} = %{version}-%{release}
+Summary:    Documentation for rubygem-%{gem_name}
+
+%description doc
+This package contains documentation for rubygem-%{gem_name}.
 
 %prep
-%setup -q
+
+%setup -q -c -T
+mkdir -p .%{gem_dir}
+%{?scl:scl enable %{scl} "}
+gem install --local --install-dir .%{gem_dir} \
+            --force %{SOURCE0}
+%{?scl:"}
 
 %build
 
-#replace shebangs for SCL
-%if %{?scl:1}%{!?scl:0}
-  for f in bin/smart-proxy extra/query.rb extra/changelog extra/migrate_settings.rb; do
-    sed -ri '1sX(/usr/bin/ruby|/usr/bin/env ruby)X%{scl_ruby}X' $f
-  done
-  sed -ri '1,$sX/usr/bin/rubyX%{scl_ruby}X' extra/spec/foreman-proxy.init
-%endif
-
 %install
-rm -rf %{buildroot}
-install -d -m0755 %{buildroot}%{_datadir}/%{name}
-install -d -m0755 %{buildroot}%{_sysconfdir}/foreman-proxy
-install -d -m0755 %{buildroot}%{_sysconfdir}/foreman-proxy/settings.d
+mkdir -p %{buildroot}%{gem_dir}
+cp -pa .%{gem_dir}/* \
+        %{buildroot}%{gem_dir}/
 
-cp -p -r lib bundler.d %{buildroot}%{_datadir}/%{name}
-rm -rf %{buildroot}%{_datadir}/%{name}/*.rb
-
-# remove all test units from productive release
-find %{buildroot}%{_datadir}/%{name} -type d -name "test" |xargs rm -rf
-
-# Move config files to %{_sysconfdir}
-install -Dp -m0644 settings.d/pulp.yml.example %{buildroot}%{_sysconfdir}/foreman-proxy/settings.d/pulp.yml
-
-%clean
-rm -rf %{buildroot}
 
 %files
-%doc LICENSE
-%{_datadir}/%{name}
-%config(noreplace) %{_sysconfdir}/foreman-proxy/settings.d
+%dir %{gem_instdir}
+%{gem_instdir}/lib
+%{gem_instdir}/bundler.d
+%{gem_instdir}/settings.d
+%{gem_instdir}/Gemfile
+%doc %{gem_instdir}/LICENSE
+
+%exclude %{gem_dir}/cache/%{gem_name}-%{version}.gem
+%{gem_dir}/specifications/%{gem_name}-%{version}.gemspec
+
+%files doc
+%doc %{gem_dir}/doc/%{gem_name}-%{version}
+%doc %{gem_instdir}/LICENSE
+
 
 %changelog
-
