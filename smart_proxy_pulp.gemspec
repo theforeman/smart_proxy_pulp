@@ -4,11 +4,11 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'smart_proxy_pulp_plugin/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "smart_proxy_pulp_plugin"
+  gem.name          = "smart_proxy_pulp"
   gem.version       = PulpProxy::VERSION
   gem.authors       = ['Dmitri Dolguikh']
   gem.email         = ['dmitri@redhat.com']
-  gem.homepage      = "https://github.com/witlessbird/smart-proxy-pulp-plugin"
+  gem.homepage      = "https://github.com/theforeman/smart-proxy-pulp-plugin"
   gem.summary       = %q{Basic Pulp support for Foreman Smart-Proxy}
   gem.description   = <<-EOS
     Basic Pulp support for Foreman Smart-Proxy

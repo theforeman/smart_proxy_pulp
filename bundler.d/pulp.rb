@@ -1,1 +1,1 @@
-gem 'smart_proxy_pulp_plugin'
+gem 'smart_proxy_pulp'
