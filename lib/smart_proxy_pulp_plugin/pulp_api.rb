@@ -1,3 +1,4 @@
+require 'sinatra'
 require 'smart_proxy_pulp_plugin/pulp_client'
 
 module PulpProxy
