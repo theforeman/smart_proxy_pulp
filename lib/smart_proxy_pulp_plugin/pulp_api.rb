@@ -4,6 +4,7 @@ require 'smart_proxy_pulp_plugin/pulp_client'
 module PulpProxy
   class Api < Sinatra::Base
     helpers ::Proxy::Helpers
+    authorize_with_ssl_client
 
     get "/status" do
       content_type :json
