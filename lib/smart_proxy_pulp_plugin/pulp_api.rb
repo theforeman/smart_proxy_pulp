@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'smart_proxy_pulp_plugin/pulp_client'
+require 'smart_proxy_pulp_plugin/disk_usage'
 
 module PulpProxy
   class Api < Sinatra::Base
@@ -16,6 +17,18 @@ module PulpProxy
       rescue SocketError => e
         log_halt 503, "Pulp server '#{URI.parse(::PulpProxy::Plugin.settings.pulp_url.to_s).host}' is unknown"
       end
+    end
+
+    get '/status/disk_usage' do
+      size = (params[:size] && DiskUsage::SIZE.keys.include?(params[:size].to_sym)) ? params[:size].to_sym : :kilobyte
+      monitor_dirs = ::PulpProxy::Plugin.settings.to_h.select { |key, _| key == :pulp_dir || key == :pulp_content_dir || key == :mongodb_dir }
+      begin
+        pulp_disk = DiskUsage.new({:path => monitor_dirs, :size => size})
+        pulp_disk.to_json
+      rescue ::Proxy::Error::ConfigurationError
+        log_halt 500, 'Could not find df command to evaluate disk space'
+      end
+
     end
   end
 end
