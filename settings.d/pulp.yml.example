@@ -1,3 +1,7 @@
 ---
 :enabled: true
 #:pulp_url: https://localhost/pulp
+# Path to pulp, pulp content and mongodb directories
+#:pulp_dir: /var/lib/pulp
+#:pulp_content_dir: /var/lib/pulp/content
+#:mongodb_dir: /var/lib/mongodb
