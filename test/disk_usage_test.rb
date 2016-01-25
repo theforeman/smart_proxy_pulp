@@ -28,6 +28,12 @@ class DiskUsageTest < Test::Unit::TestCase
     end
   end
 
+  def test_hash_with_wrong_path
+    paths_array = [::Sinatra::Application.settings.root, '/t/m/p']
+    disk_test = ::PulpProxy::DiskUsage.new(:path => {:root => paths_array.first, :tmp => paths_array.last})
+    assert_equal([paths_array.first], disk_test.path)
+  end
+
   def test_command_df
     disk_test = ::PulpProxy::DiskUsage.new(:path => ::Sinatra::Application.settings.root)
     assert(disk_test.send(:command).include?(which('df')))
