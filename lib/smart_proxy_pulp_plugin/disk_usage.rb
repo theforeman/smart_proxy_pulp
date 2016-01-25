@@ -8,7 +8,7 @@ module PulpProxy
 
     def initialize(opts ={})
       raise(::Proxy::Error::ConfigurationError, 'Unable to continue - must provide a path.') if opts[:path].nil?
-      @paths_hash = path_hash(opts[:path])
+      @paths_hash = validate_path(path_hash(opts[:path]))
       @path = @paths_hash.values
       @size = SIZE[opts[:size]] || SIZE[:kilobyte]
       @stat = {}
@@ -66,6 +66,16 @@ module PulpProxy
         values[index] = is_int if is_int
       end
       values
+    end
+
+    def validate_path(path_hash)
+      path_hash.each do |key, value|
+        unless File.readable?(value)
+          logger.warn "File at #{value} defined in #{key} parameter doesn't exist or is unreadable"
+          path_hash.delete(key)
+        end
+      end
+      path_hash
     end
   end
 end

@@ -6,8 +6,6 @@ module PulpMasterProxy
                      :pulp_content_dir => '/var/lib/pulp/content',
                      :mongodb_dir => '/var/lib/mongodb'
 
-    validate_readable :pulp_dir, :pulp_content_dir, :mongodb_dir
-
     http_rackup_path File.expand_path("pulp_node_http_config.ru", File.expand_path("../", __FILE__))
     https_rackup_path File.expand_path("pulp_node_http_config.ru", File.expand_path("../", __FILE__))
   end
