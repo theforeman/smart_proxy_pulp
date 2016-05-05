@@ -21,7 +21,7 @@ module PulpProxy
 
     get '/status/disk_usage' do
       size = (params[:size] && DiskUsage::SIZE.keys.include?(params[:size].to_sym)) ? params[:size].to_sym : :kilobyte
-      monitor_dirs = ::PulpProxy::Plugin.settings.to_h.select { |key, _| key == :pulp_dir || key == :pulp_content_dir || key == :mongodb_dir }
+      monitor_dirs = Hash[::PulpProxy::Plugin.settings.marshal_dump.select { |key, _| key == :pulp_dir || key == :pulp_content_dir || key == :mongodb_dir }]
       begin
         pulp_disk = DiskUsage.new({:path => monitor_dirs, :size => size})
         pulp_disk.to_json

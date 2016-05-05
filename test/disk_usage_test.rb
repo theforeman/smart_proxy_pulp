@@ -14,7 +14,7 @@ class DiskUsageTest < Test::Unit::TestCase
   def test_hash_of_paths
     paths_array = [::Sinatra::Application.settings.root, '/tmp']
     disk_test = ::PulpProxy::DiskUsage.new(:path => {:root => paths_array.first, :tmp => paths_array.last})
-    assert_equal(paths_array, disk_test.path)
+    assert_equal(paths_array.sort, disk_test.path.sort)
   end
 
   def test_path_can_be_string
@@ -49,7 +49,7 @@ class DiskUsageTest < Test::Unit::TestCase
     paths_array = [::Sinatra::Application.settings.root, '/tmp']
     disk_test = ::PulpProxy::DiskUsage.new(:path => {:root => paths_array.first, :tmp => paths_array.last})
     data = disk_test.stat
-    assert_equal([:filesystem, :"1k-blocks", :used, :available, :percent, :mounted, :path, :size], data[:root].keys)
+    assert_equal([:filesystem, :"1k-blocks", :used, :available, :percent, :mounted, :path, :size].to_set, data[:root].keys.to_set)
     json = disk_test.to_json
     assert_nothing_raised JSON::ParserError do
       JSON.parse(json)

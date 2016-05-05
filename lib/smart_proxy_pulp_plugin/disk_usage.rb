@@ -10,7 +10,8 @@ module PulpProxy
       raise(::Proxy::Error::ConfigurationError, 'Unable to continue - must provide a path.') if opts[:path].nil?
       @paths_hash = validate_path(path_hash(opts[:path]))
       @path = @paths_hash.values
-      @size = SIZE[opts[:size]] || SIZE[:kilobyte]
+      @size_format = opts[:size] || :kilobyte
+      @size = SIZE[@size_format]
       @stat = {}
       find_df
       get_stat
@@ -32,28 +33,66 @@ module PulpProxy
       [command_path, "-B", "#{size}", *path]
     end
 
-    def get_stat
-      raw = Open3::popen3({"LC_ALL" => "C"}, *command) do |stdin, stdout, stderr, thread|
-        unless stderr.read.empty?
-          error_line = stderr.read
-          logger.error "[#{command_path}] #{error_line}"
-          raise(::Proxy::Error::ConfigurationError, "#{command_path} raised an error: #{error_line}")
+    # Inspired and copied from Facter
+    # @ https://github.com/puppetlabs/facter/blob/2.x/lib/facter/core/execution/base.rb
+    # @TODO: Refactor http://projects.theforeman.org/issues/15235 when removing support for 1.8.7
+    def with_env(values)
+      old = {}
+      values.each do |var, value|
+        # save the old value if it exists
+        if old_val = ENV[var]
+          old[var] = old_val
         end
-        stdout.read.split("\n")
+        # set the new (temporary) value for the environment variable
+        ENV[var] = value
       end
-      logger.debug "[#{command_path}] #{raw.to_s}"
+      # execute the caller's block, capture the return value
+      rv = yield
+        # use an ensure block to make absolutely sure we restore the variables
+    ensure
+      # restore the old values
+      values.each do |var, value|
+        if old.include?(var)
+          ENV[var] = old[var]
+        else
+          # if there was no old value, delete the key from the current environment variables hash
+          ENV.delete(var)
+        end
+      end
+      # return the captured return value
+      rv
+    end
 
-      titles = normalize_titles(raw)
-      raw.each_with_index do |line, index|
-        mount_path = path[index]
-        values = normalize_values(line.split)
-        @stat[@paths_hash.key(mount_path)] = Hash[titles.zip(values)].merge({:path => mount_path, :size => SIZE.key(size)})
+    def get_stat
+      with_env 'LC_ALL' => 'C' do
+        raw = Open3::popen3(*command) do |stdin, stdout, stderr, thread|
+          unless stderr.read.empty?
+            error_line = stderr.read
+            logger.error "[#{command_path}] #{error_line}"
+            raise(::Proxy::Error::ConfigurationError, "#{command_path} raised an error: #{error_line}")
+          end
+          stdout.read.split("\n")
+        end
+
+        logger.debug "[#{command_path}] #{raw.to_s}"
+
+        titles = normalize_titles(raw)
+        raw.each_with_index do |line, index|
+          mount_path = path[index]
+          values = normalize_values(line.split)
+          @stat[hash_key_for(mount_path)] = Hash[titles.zip(values)].merge({:path => mount_path, :size => @size_format})
+        end
       end
     end
 
     def path_hash(path)
       path.is_a?(Hash) ? path : Hash[path, path]
     end
+
+    def hash_key_for(path)
+      @paths_hash.select { |k,v| v == path}.first[0]
+    end
+
 
     def normalize_titles(raw)
       replacers = {"mounted on" => :mounted, "use%" => :percent}
