@@ -44,7 +44,7 @@ class PulpApiTest < Test::Unit::TestCase
     get '/status/disk_usage'
     response = JSON.parse(last_response.body)
     assert last_response.ok?, "Last response was not ok: #{last_response.body}"
-    assert_equal(%w(filesystem 1k-blocks used available percent mounted path size), response['pulp_dir'].keys)
+    assert_equal(%w(filesystem 1k-blocks used available percent mounted path size).to_set, response['pulp_dir'].keys.to_set)
   end
 
   def test_change_pulp_disk_size
