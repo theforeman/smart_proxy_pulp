@@ -30,7 +30,7 @@ module PulpProxy
     end
 
     def command
-      [command_path, "-B", "#{size}", *path]
+      [command_path, "-P", "-B", "#{size}", *path]
     end
 
     # Inspired and copied from Facter
@@ -95,8 +95,8 @@ module PulpProxy
 
 
     def normalize_titles(raw)
-      replacers = {"mounted on" => :mounted, "use%" => :percent}
-      raw.shift.downcase.gsub(/(use%|mounted on)/) { |m| replacers.fetch(m,m)}.split.map(&:to_sym)
+      replacers = {"mounted on" => :mounted, "capacity" => :percent, "1024-blocks" => :"1k-blocks" }
+      raw.shift.downcase.gsub(/(capacity|mounted on|1024-blocks)/) { |m| replacers.fetch(m,m)}.split.map(&:to_sym)
     end
 
     def normalize_values(values)
