@@ -49,7 +49,7 @@ class DiskUsageTest < Test::Unit::TestCase
     paths_array = [::Sinatra::Application.settings.root, '/tmp']
     disk_test = ::PulpProxy::DiskUsage.new(:path => {:root => paths_array.first, :tmp => paths_array.last})
     data = disk_test.stat
-    assert_equal([:filesystem, :"1k-blocks", :used, :available, :percent, :mounted, :path, :size].to_set, data[:root].keys.to_set)
+    assert_equal([:filesystem, :"1024-blocks", :used, :available, :capacity, :mounted, :path, :size].to_set, data[:root].keys.to_set)
     json = disk_test.to_json
     assert_nothing_raised JSON::ParserError do
       JSON.parse(json)

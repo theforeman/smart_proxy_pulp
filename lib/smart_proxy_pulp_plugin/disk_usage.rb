@@ -30,7 +30,7 @@ module PulpProxy
     end
 
     def command
-      [command_path, "-B", "#{size}", *path]
+      [command_path, "-P", "-B", "#{size}", *path]
     end
 
     # Inspired and copied from Facter
