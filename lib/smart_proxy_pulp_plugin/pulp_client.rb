@@ -1,11 +1,12 @@
 require 'net/http'
 require 'net/https'
 require 'uri'
+require 'smart_proxy_pulp_plugin/settings'
 
 module PulpProxy
   class PulpClient
     def self.get(path)
-      uri = URI.parse(::PulpProxy::Plugin.settings.pulp_url.to_s)
+      uri = URI.parse(::PulpProxy::Settings.settings.pulp_url.to_s)
       path = [uri.path, path].join('/') unless uri.path.empty?
       req = Net::HTTP::Get.new(URI.join(uri.to_s, path).path)
       req.add_field('Accept', 'application/json')
@@ -14,7 +15,7 @@ module PulpProxy
     end
 
     def self.http
-      uri = URI.parse(::PulpProxy::Plugin.settings.pulp_url.to_s)
+      uri = URI.parse(::PulpProxy::Settings.settings.pulp_url.to_s)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = uri.scheme == 'https'
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE

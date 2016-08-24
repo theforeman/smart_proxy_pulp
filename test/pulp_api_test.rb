@@ -47,6 +47,17 @@ class PulpApiTest < Test::Unit::TestCase
     assert_equal(%w(filesystem 1k-blocks used available percent mounted path size).to_set, response['pulp_dir'].keys.to_set)
   end
 
+  def test_use_default_pulp_node_settings_200
+    PulpNodeProxy::Plugin.load_test_settings(:pulp_dir => ::Sinatra::Application.settings.root,
+                                             :pulp_content_dir => ::Sinatra::Application.settings.root,
+                                             :mongodb_dir => ::Sinatra::Application.settings.root)
+
+    PulpProxy::Plugin.settings = nil
+    stub_request(:get, "#{::PulpNodeProxy::Plugin.settings.pulp_url.to_s}/api/v2/status/").to_return(:body => "{\"api_version\":\"2\"}")
+    get '/status'
+    assert last_response.ok?, "Last response was not ok: #{last_response.body}"
+  end
+
   def test_change_pulp_disk_size
     PulpProxy::Plugin.load_test_settings(:pulp_dir => ::Sinatra::Application.settings.root,
                                          :pulp_content_dir => ::Sinatra::Application.settings.root,
