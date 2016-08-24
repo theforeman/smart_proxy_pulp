@@ -1,4 +1,4 @@
-module PulpMasterProxy
+module PulpNodeProxy
   class Plugin < ::Proxy::Plugin
     plugin "pulpnode", ::PulpProxy::VERSION
     default_settings :pulp_url => 'https://localhost/pulp',
