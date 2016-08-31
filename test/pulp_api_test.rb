@@ -77,4 +77,12 @@ class PulpApiTest < Test::Unit::TestCase
     assert last_response.ok?, "Last response was not ok: #{last_response.body}"
     assert_equal('kilobyte', response['pulp_dir']['size'])
   end
+
+  def test_returns_puppet_content_dir
+    PulpProxy::Plugin.load_test_settings(:puppet_content_dir => '/tmp/foo')
+    get '/status/puppet'
+    response = JSON.parse(last_response.body)
+    assert last_response.ok?, "Last response was not ok: #{last_response.body}"
+    assert_equal('/tmp/foo', response['puppet_content_dir'])
+  end
 end

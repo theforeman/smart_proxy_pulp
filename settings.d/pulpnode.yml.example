@@ -4,4 +4,5 @@
 # Path to pulp, pulp content and mongodb directories
 #:pulp_dir: /var/lib/pulp
 #:pulp_content_dir: /var/lib/pulp/content
+#:puppet_content_dir: /etc/puppet/environments
 #:mongodb_dir: /var/lib/mongodb

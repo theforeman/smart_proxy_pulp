@@ -29,7 +29,11 @@ module PulpProxy
       rescue ::Proxy::Error::ConfigurationError
         log_halt 500, 'Could not find df command to evaluate disk space'
       end
+    end
 
+    get '/status/puppet' do
+      content_type :json
+      {:puppet_content_dir => ::PulpProxy::Settings.settings.puppet_content_dir}.to_json
     end
   end
 end
