@@ -31,9 +31,20 @@ module PulpProxy
       end
     end
 
+    # DEPRECATED: Use /settings
     get '/status/puppet' do
       content_type :json
       {:puppet_content_dir => ::PulpProxy::Settings.settings.puppet_content_dir}.to_json
+    end
+
+    get '/status/settings' do
+      content_type :json
+      settings = {
+        :pulp_url => ::PulpProxy::Settings.settings.pulp_url,
+        :puppet_content_dir => ::PulpProxy::Settings.settings.puppet_content_dir
+      }
+
+      settings.to_json
     end
   end
 end

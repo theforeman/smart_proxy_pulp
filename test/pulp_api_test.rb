@@ -85,4 +85,12 @@ class PulpApiTest < Test::Unit::TestCase
     assert last_response.ok?, "Last response was not ok: #{last_response.body}"
     assert_equal('/tmp/foo', response['puppet_content_dir'])
   end
+
+  def test_returns_pulp_url
+    PulpProxy::Plugin.load_test_settings(:pulp_url => 'https://foo.bar/pulp')
+    get '/status/settings'
+    response = JSON.parse(last_response.body)
+    assert last_response.ok?, "Last response was not ok: #{last_response.body}"
+    assert_equal('https://foo.bar/pulp', response['pulp_url'])
+  end
 end
