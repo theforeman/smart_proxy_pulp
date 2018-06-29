@@ -7,8 +7,7 @@ module PulpProxy
   class PulpClient
     def self.get(path)
       uri = URI.parse(::PulpProxy::Settings.settings.pulp_url.to_s)
-      path = [uri.path, path].join('/') unless uri.path.empty?
-      req = Net::HTTP::Get.new(URI.join(uri.to_s, path).path)
+      req = Net::HTTP::Get.new(URI.join(uri.to_s.chomp('/') + '/', path).path)
       req.add_field('Accept', 'application/json')
       req.content_type = 'application/json'
       response = self.http.request(req)
