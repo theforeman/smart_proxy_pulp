@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
   gem.files         = Dir['{bundler.d,lib,settings.d}/**/*', 'LICENSE', 'Gemfile']
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
-  gem.license = 'GPLv3'
+  gem.license = 'GPL-3.0'
 
   # todo: add a runtime dependency on smart-proxy
   gem.add_development_dependency('test-unit', '~> 2')
