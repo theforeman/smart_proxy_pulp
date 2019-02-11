@@ -2,7 +2,7 @@ module PulpProxy
   class DiskUsage
     include ::Proxy::Util
     include ::Proxy::Log
-    SIZE = { :kilobyte => 1_024, :megabyte => 1_048_576, :gigabyte => 1_073_741_824, :terabyte => 1_099_511_627_776 }
+    SIZE = { :byte => 1, :kilobyte => 1_024, :megabyte => 1_048_576, :gigabyte => 1_073_741_824, :terabyte => 1_099_511_627_776 }
 
     attr_reader :path, :stat, :size
 

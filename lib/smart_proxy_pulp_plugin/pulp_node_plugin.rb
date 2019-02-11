@@ -7,6 +7,7 @@ module PulpNodeProxy
                      :puppet_content_dir => '/etc/puppet/environments',
                      :mongodb_dir => '/var/lib/mongodb'
 
+    expose_setting :pulp_url
     http_rackup_path File.expand_path("pulp_node_http_config.ru", File.expand_path("../", __FILE__))
     https_rackup_path File.expand_path("pulp_node_http_config.ru", File.expand_path("../", __FILE__))
   end
