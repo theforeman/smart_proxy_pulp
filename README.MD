@@ -51,7 +51,7 @@ for example
 
 ## Running the tests
 
-Todo - so test examples
+Todo - some test examples
 
 
 ## Authors
