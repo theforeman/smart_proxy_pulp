@@ -16,6 +16,8 @@ module PulpProxy
     def self.capabilities
       body = JSON.parse(get("api/v3/status/").body)
       body['versions'].map{|item| item['component'] }
+    rescue => e
+      []
     end
 
     def self.http
