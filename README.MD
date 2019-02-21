@@ -21,9 +21,9 @@ A Pulp installation as part of the Katello install, or a remote Pulp service to 
 Assuming prerequisites are met, the Pulp plugin must be enabled in the Foreman-proxy directory with the pulp.yaml and pulpnode.yaml
 the following parameters are required to be set
 
-```
----
 ```yaml
+
+---
 # Pulp integration
 :enabled: true
 :pulp_url: https://url-to-pulp-service
@@ -37,7 +37,8 @@ the following parameters are required to be set
 
 for example
 
-```
+```yaml
+
 ---
 # Pulp integration
 :enabled: true
