@@ -23,6 +23,7 @@ the following parameters are required to be set
 
 ```
 ---
+```yaml
 # Pulp integration
 :enabled: true
 :pulp_url: https://url-to-pulp-service
