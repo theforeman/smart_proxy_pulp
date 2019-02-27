@@ -2,6 +2,7 @@ require 'net/http'
 require 'net/https'
 require 'uri'
 require 'smart_proxy_pulp_plugin/settings'
+require 'proxy/log'
 
 module PulpProxy
   class Pulp3Client
@@ -9,7 +10,6 @@ module PulpProxy
       uri = URI.parse(::PulpProxy::Pulp3Plugin.settings.pulp_url.to_s)
       req = Net::HTTP::Get.new(URI.join(uri.to_s.chomp('/') + '/', path))
       req.add_field('Accept', 'application/json')
-      req.content_type = 'application/json'
       self.http.request(req)
     end
 
@@ -17,7 +17,12 @@ module PulpProxy
       body = JSON.parse(get("api/v3/status/").body)
       body['versions'].map{|item| item['component'] }
     rescue => e
+      logger.error("Could not fetch capabilities: #{e.message}")
       []
+    end
+
+    def self.logger
+      Proxy::LoggerFactory.logger
     end
 
     def self.http
@@ -25,18 +30,6 @@ module PulpProxy
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = uri.scheme == 'https'
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
-      if http.use_ssl?
-        if Proxy::SETTINGS.ssl_ca_file && !Proxy::SETTINGS.ssl_ca_file.to_s.empty?
-          http.ca_file = Proxy::SETTINGS.ssl_ca_file
-          http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-        end
-
-        if Proxy::SETTINGS.ssl_certificate && !Proxy::SETTINGS.ssl_certificate.to_s.empty? && Proxy::SETTINGS.ssl_private_key && !Proxy::SETTINGS.ssl_private_key.to_s.empty?
-          http.cert = OpenSSL::X509::Certificate.new(File.read(Proxy::SETTINGS.ssl_certificate))
-          http.key  = OpenSSL::PKey::RSA.new(File.read(Proxy::SETTINGS.ssl_private_key), nil)
-        end
-      end
       http
     end
   end
