@@ -57,13 +57,11 @@ class Pulp3ApiTest < Test::Unit::TestCase
     assert_equal('megabyte', response['pulp_dir']['size'])
   end
 
-  def test_default_pulp_disk_size
+  def test_pulp_disk_bad_size
     PulpProxy::Pulp3Plugin.load_test_settings(:pulp_dir => ::Sinatra::Application.settings.root,
                                          :pulp_content_dir => ::Sinatra::Application.settings.root,
                                          :mongodb_dir => ::Sinatra::Application.settings.root)
     get '/status/disk_usage?size=pitabyte'
-    response = JSON.parse(last_response.body)
-    assert last_response.ok?, "Last response was not ok: #{last_response.body}"
-    assert_equal('byte', response['pulp_dir']['size'])
+    assert_equal 400, last_response.status
   end
 end
