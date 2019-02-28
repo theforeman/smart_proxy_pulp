@@ -29,7 +29,6 @@ module PulpProxy
       uri = URI.parse(::PulpProxy::Pulp3Plugin.settings.pulp_url.to_s)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = uri.scheme == 'https'
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       http
     end
   end
