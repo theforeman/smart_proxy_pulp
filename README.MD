@@ -11,9 +11,9 @@ Documentation can be found here for how to install a stand alone smart proxy htt
 
 ### Prerequisites
 
-A working Katello instance (note not Foreman - must be Katello)
-A smart proxy or capsule with the Pulp plugin installed and enabled
-A Pulp installation as part of the Katello install, or a remote Pulp service to connect to
+* working Katello instance (note not Foreman - must be Katello)
+* smart proxy or capsule with the Pulp plugin installed and enabled
+* Pulp installation as part of the Katello install, or a remote Pulp service to connect to
 
 
 ### Installing
