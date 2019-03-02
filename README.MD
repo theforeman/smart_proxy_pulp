@@ -7,7 +7,7 @@ While this plugin is part of the Foreman project it can only be used with Katell
 
 The Foreman project provides documentation on this specific plugin installation from multiple methods, distribution specific RPM, distribution specific DEB and direct manual build from source. 
 The plugin can also be installed as part of the foreman-installer puppet class with the "--[no-]enable-foreman-proxy-plugin-pulp" option.
-Documentation can be found here for how to install a stand alone smart proxy https://theForeman.org/manuals/latest/index.html#4.3.1SmartProxyInstallation
+Documentation can be found here for how to install a stand alone smart proxy https://theforeman.org/manuals/latest/index.html#4.3.1SmartProxyInstallation
 
 ### Prerequisites
 
