@@ -1,4 +1,4 @@
-require 'puppet_proxy_common/custom_validators'
+require 'smart_proxy_pulp_plugin/validators/pulp_url_validator'
 
 module PulpProxy
   class Pulp3Plugin < ::Proxy::Plugin
@@ -8,7 +8,7 @@ module PulpProxy
                      :pulp_content_dir => '/var/lib/pulp/content',
                      :mirror => false
 
-    load_validators :url => ::Proxy::Puppet::Validators::UrlValidator
+    load_validators :url => ::PulpProxy::Validators::PulpUrlValidator
     validate :pulp_url, :url => true
 
     expose_setting :pulp_url
