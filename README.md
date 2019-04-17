@@ -22,33 +22,29 @@ Assuming prerequisites are met, the Pulp plugin must be enabled in the Foreman-p
 the following parameters are required to be set
 
 ```yaml
-
 ---
 # Pulp integration
 :enabled: true
-:pulp_url: https://url-to-pulp-service
+:pulp_url: https://url-to-pulp-service.example.com
 # Path to Pulp, Pulp content and mongodb directories
 :pulp_dir: directory for Pulp on the Pulp node
 :pulp_content_dir: where the Pulp content is held
 :puppet_content_dir: where the puppet modules are held
 :mongodb_dir: the mongodb datadir for Pulp
-
 ```
 
 for example
 
 ```yaml
-
 ---
 # Pulp integration
 :enabled: true
-:pulp_url: https://pulp.somedomain.com (note Katello installs are normally https://katelloname.somedomain.com/pulp)
+:pulp_url: https://pulp.somedomain.com # (note Katello installs are normally https://katelloname.somedomain.com/pulp)
 # Path to Pulp, Pulp content and mongodb directories
 :pulp_dir: /var/lib/pulp
 :pulp_content_dir: /var/lib/pulp/content
 :puppet_content_dir: /etc/puppetlabs/code/environments
 :mongodb_dir: /var/lib/mongodb
-
 ```
 
 ## Running the tests
@@ -58,8 +54,7 @@ Todo - some test examples
 
 ## Authors
 
-* **The Foreman Project** - *Initial Draft* - https://www.theforeman.org/
-
+* **The Foreman Project** - *Initial Draft* - https://theforeman.org/
 
 ## License
 
