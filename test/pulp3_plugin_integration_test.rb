@@ -15,7 +15,7 @@ class Pulp3FeaturesTest < Test::Unit::TestCase
   def test_features
     Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulp.yml').returns(enabled: true, pulp_url: 'http://pulp.example.com/foo')
     Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulpnode.yml').returns(enabled: true, pulp_url: 'http://pulpnode.example.com/foo')
-    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulp3.yml').returns(enabled: true, pulp_url: 'http://pulp3.example.com/foo')
+    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulp3.yml').returns(enabled: true, pulp_url: 'http://pulp3.example.com/foo', content_app_url: 'http://pulp3.example.com:24816/')
     PulpProxy::Pulp3Client.stubs(:capabilities).returns(['foo'])
 
     get '/features'
@@ -24,7 +24,11 @@ class Pulp3FeaturesTest < Test::Unit::TestCase
 
     assert_equal 'running', pulp3['state']
 
-    expected_settings = {'pulp_url' => 'http://pulp3.example.com/foo', 'mirror' => false}
+    expected_settings = {
+      'pulp_url' => 'http://pulp3.example.com/foo',
+      'content_app_url' => 'http://pulp3.example.com:24816/',
+      'mirror' => false
+    }
     assert_equal(expected_settings, pulp3['settings'])
     assert_equal(['foo'], pulp3['capabilities'])
   end

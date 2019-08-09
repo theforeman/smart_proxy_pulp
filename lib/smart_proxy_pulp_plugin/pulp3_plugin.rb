@@ -4,15 +4,18 @@ module PulpProxy
   class Pulp3Plugin < ::Proxy::Plugin
     plugin "pulp3", ::PulpProxy::VERSION
     default_settings :pulp_url => 'https://localhost/pulp/',
+                     :content_app_url => 'https://localhost:24816/',
                      :pulp_dir => '/var/lib/pulp',
                      :pulp_content_dir => '/var/lib/pulp/content',
                      :mirror => false
 
     load_validators :url => ::PulpProxy::Validators::PulpUrlValidator
     validate :pulp_url, :url => true
+    validate :content_app_url, :url => true
 
     expose_setting :pulp_url
     expose_setting :mirror
+    expose_setting :content_app_url
     capability( lambda do ||
       Pulp3Client.capabilities
     end)
