@@ -3,5 +3,4 @@
 #:pulp_url: https://localhost/pulp/
 #:pulp_dir: /var/lib/pulp
 #:pulp_content_dir: /var/lib/pulp/content
-#:puppet_content_dir: /etc/pupppet/environments
 #:mirror: false
