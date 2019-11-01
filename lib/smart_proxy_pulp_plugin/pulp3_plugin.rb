@@ -5,8 +5,6 @@ module PulpProxy
     plugin "pulp3", ::PulpProxy::VERSION
     default_settings :pulp_url => 'https://localhost',
                      :content_app_url => 'https://localhost:24816/',
-                     :pulp_dir => '/var/lib/pulp',
-                     :pulp_content_dir => '/var/lib/pulp/content',
                      :mirror => false
 
     load_validators :url => ::PulpProxy::Validators::PulpUrlValidator
