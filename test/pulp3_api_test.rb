@@ -14,6 +14,7 @@ class Pulp3ApiTest < Test::Unit::TestCase
   end
 
   def test_returns_pulp_status_on_200
+    PulpProxy::Pulp3Plugin.load_test_settings({})
     stub_request(:get, "#{::PulpProxy::Pulp3Plugin.settings.pulp_url.to_s}/pulp/api/v3/status/").to_return(:body => "{\"api_version\":\"3\"}")
     get '/status'
 
@@ -35,33 +36,5 @@ class Pulp3ApiTest < Test::Unit::TestCase
     assert last_response.server_error?
   ensure
     Net::HTTP.any_instance.unstub(:request)
-  end
-
-  def test_returns_pulp_disk_on_200
-    PulpProxy::Pulp3Plugin.load_test_settings(:pulp_dir => ::Sinatra::Application.settings.root,
-                                         :pulp_content_dir => ::Sinatra::Application.settings.root,
-                                         :mongodb_dir => ::Sinatra::Application.settings.root)
-    get '/status/disk_usage'
-    response = JSON.parse(last_response.body)
-    assert last_response.ok?, "Last response was not ok: #{last_response.body}"
-    assert_equal(%w(filesystem 1-blocks used available percent mounted path size).to_set, response['pulp_dir'].keys.to_set)
-  end
-
-  def test_change_pulp_disk_size
-    PulpProxy::Pulp3Plugin.load_test_settings(:pulp_dir => ::Sinatra::Application.settings.root,
-                                         :pulp_content_dir => ::Sinatra::Application.settings.root,
-                                         :mongodb_dir => ::Sinatra::Application.settings.root)
-    get '/status/disk_usage?size=megabyte'
-    response = JSON.parse(last_response.body)
-    assert last_response.ok?, "Last response was not ok: #{last_response.body}"
-    assert_equal('megabyte', response['pulp_dir']['size'])
-  end
-
-  def test_pulp_disk_bad_size
-    PulpProxy::Pulp3Plugin.load_test_settings(:pulp_dir => ::Sinatra::Application.settings.root,
-                                         :pulp_content_dir => ::Sinatra::Application.settings.root,
-                                         :mongodb_dir => ::Sinatra::Application.settings.root)
-    get '/status/disk_usage?size=pitabyte'
-    assert_equal 400, last_response.status
   end
 end
