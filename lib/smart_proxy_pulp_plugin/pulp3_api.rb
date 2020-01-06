@@ -9,7 +9,7 @@ module PulpProxy
     get '/status' do
       content_type :json
       begin
-        result = Pulp3Client.get("api/v3/status/")
+        result = Pulp3Client.get("/pulp/api/v3/status/")
         return result.body if result.is_a?(Net::HTTPSuccess)
         log_halt result.code, "Pulp server at #{::PulpProxy::Settings.settings.pulp_url} returned an error: '#{result.message}'"
       rescue SocketError, Errno::ECONNREFUSED => e

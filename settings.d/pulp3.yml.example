@@ -1,6 +1,6 @@
 ---
 :enabled: true
-#:pulp_url: https://localhost/pulp/
+#:pulp_url: https://localhost/
 #:content_app_url: https://localhost:24816/
 #:pulp_dir: /var/lib/pulp
 #:pulp_content_dir: /var/lib/pulp/content
