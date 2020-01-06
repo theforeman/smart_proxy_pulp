@@ -3,7 +3,7 @@ require 'smart_proxy_pulp_plugin/validators/pulp_url_validator'
 module PulpProxy
   class Pulp3Plugin < ::Proxy::Plugin
     plugin "pulp3", ::PulpProxy::VERSION
-    default_settings :pulp_url => 'https://localhost/pulp/',
+    default_settings :pulp_url => 'https://localhost',
                      :content_app_url => 'https://localhost:24816/',
                      :pulp_dir => '/var/lib/pulp',
                      :pulp_content_dir => '/var/lib/pulp/content',
