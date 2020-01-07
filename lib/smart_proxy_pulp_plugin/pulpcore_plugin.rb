@@ -1,8 +1,8 @@
 require 'smart_proxy_pulp_plugin/validators/pulp_url_validator'
 
 module PulpProxy
-  class Pulp3Plugin < ::Proxy::Plugin
-    plugin "pulp3", ::PulpProxy::VERSION
+  class PulpcorePlugin < ::Proxy::Plugin
+    plugin "pulpcore", ::PulpProxy::VERSION
     default_settings :pulp_url => 'https://localhost',
                      :content_app_url => 'https://localhost:24816/',
                      :mirror => false
@@ -15,9 +15,9 @@ module PulpProxy
     expose_setting :mirror
     expose_setting :content_app_url
     capability( lambda do ||
-      Pulp3Client.capabilities
+      PulpcoreClient.capabilities
     end)
-    http_rackup_path File.expand_path("pulp3_http_config.ru", File.expand_path("../", __FILE__))
-    https_rackup_path File.expand_path("pulp3_http_config.ru", File.expand_path("../", __FILE__))
+    http_rackup_path File.expand_path("pulpcore_http_config.ru", File.expand_path("../", __FILE__))
+    https_rackup_path File.expand_path("pulpcore_http_config.ru", File.expand_path("../", __FILE__))
   end
 end

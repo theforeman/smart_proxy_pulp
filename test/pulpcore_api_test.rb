@@ -3,19 +3,19 @@ require 'webmock/test_unit'
 require 'mocha/test_unit'
 require 'rack/test'
 
-require 'smart_proxy_pulp_plugin/pulp3_plugin'
-require 'smart_proxy_pulp_plugin/pulp3_api'
+require 'smart_proxy_pulp_plugin/pulpcore_plugin'
+require 'smart_proxy_pulp_plugin/pulpcore_api'
 
-class Pulp3ApiTest < Test::Unit::TestCase
+class PulpcoreApiTest < Test::Unit::TestCase
   include Rack::Test::Methods
 
   def app
-    PulpProxy::Pulp3Api.new
+    PulpProxy::PulpcoreApi.new
   end
 
   def test_returns_pulp_status_on_200
-    PulpProxy::Pulp3Plugin.load_test_settings({})
-    stub_request(:get, "#{::PulpProxy::Pulp3Plugin.settings.pulp_url.to_s}/pulp/api/v3/status/").to_return(:body => "{\"api_version\":\"3\"}")
+    PulpProxy::PulpcorePlugin.load_test_settings({})
+    stub_request(:get, "#{::PulpProxy::PulpcorePlugin.settings.pulp_url.to_s}/pulp/api/v3/status/").to_return(:body => "{\"api_version\":\"3\"}")
     get '/status'
 
     assert last_response.ok?, "Last response was not ok: #{last_response.body}"
