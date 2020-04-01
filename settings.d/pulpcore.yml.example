@@ -2,4 +2,6 @@
 :enabled: true
 #:pulp_url: https://localhost/
 #:content_app_url: https://localhost:24816/
+#:username: admin
+#:password: password
 #:mirror: false

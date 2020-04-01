@@ -14,6 +14,8 @@ module PulpProxy
     expose_setting :pulp_url
     expose_setting :mirror
     expose_setting :content_app_url
+    expose_setting :username
+    expose_setting :password
     capability( lambda do ||
       PulpcoreClient.capabilities
     end)
