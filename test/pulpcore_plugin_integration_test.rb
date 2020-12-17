@@ -19,10 +19,11 @@ class PulpcoreFeaturesTest < Test::Unit::TestCase
     PulpProxy::PulpcoreClient.stubs(:capabilities).returns(['foo'])
 
     get '/features'
+    assert last_response.ok?, "Last response was not ok: #{last_response.body}"
     response = JSON.parse(last_response.body)
     pulpcore = response['pulpcore']
 
-    assert_equal 'running', pulpcore['state']
+    assert_equal 'running', pulpcore['state'], Proxy::LogBuffer::Buffer.instance.info[:failed_modules][:pulpcore]
 
     expected_settings = {
       'pulp_url' => 'http://pulpcore.example.com/foo',
@@ -48,10 +49,11 @@ class PulpcoreFeaturesTest < Test::Unit::TestCase
     PulpProxy::PulpcoreClient.stubs(:capabilities).returns(['foo'])
 
     get '/features'
+    assert last_response.ok?, "Last response was not ok: #{last_response.body}"
     response = JSON.parse(last_response.body)
     pulpcore = response['pulpcore']
 
-    assert_equal 'running', pulpcore['state']
+    assert_equal 'running', pulpcore['state'], Proxy::LogBuffer::Buffer.instance.info[:failed_modules][:pulpcore]
 
     expected_settings = {
       'pulp_url' => 'http://pulpcore.example.com/foo',
