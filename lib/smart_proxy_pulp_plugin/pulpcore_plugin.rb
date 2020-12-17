@@ -13,9 +13,7 @@ module PulpProxy
     expose_setting :content_app_url
     expose_setting :username
     expose_setting :password
-    capability( lambda do ||
-      PulpcoreClient.capabilities
-    end)
+    capability -> { PulpcoreClient.capabilities }
     rackup_path File.expand_path('pulpcore_http_config.ru', __dir__)
   end
 end
