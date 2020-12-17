@@ -67,4 +67,36 @@ class PulpcoreFeaturesTest < Test::Unit::TestCase
     assert_equal(expected_settings, pulpcore['settings'])
     assert_equal(['foo'], pulpcore['capabilities'])
   end
+
+  def test_invalid_pulp_url
+    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulp.yml').returns(enabled: true, pulp_url: 'http://pulp.example.com/foo')
+    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulpnode.yml').returns(enabled: true, pulp_url: 'http://pulpnode.example.com/foo')
+    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulpcore.yml').returns(enabled: true, pulp_url: '')
+
+    get '/features'
+    assert last_response.ok?, "Last response was not ok: #{last_response.body}"
+    response = JSON.parse(last_response.body)
+    pulpcore = response['pulpcore']
+
+    failure = Proxy::LogBuffer::Buffer.instance.info[:failed_modules][:pulpcore]
+
+    assert_equal 'failed', pulpcore['state'], failure
+    assert_equal "Disabling all modules in the group ['pulpcore'] due to a failure in one of them: Parameter 'pulp_url' is expected to have a non-empty value", failure
+  end
+
+  def test_invalid_content_app_url
+    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulp.yml').returns(enabled: true, pulp_url: 'http://pulp.example.com/foo')
+    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulpnode.yml').returns(enabled: true, pulp_url: 'http://pulpnode.example.com/foo')
+    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulpcore.yml').returns(enabled: true, content_app_url: '')
+
+    get '/features'
+    assert last_response.ok?, "Last response was not ok: #{last_response.body}"
+    response = JSON.parse(last_response.body)
+    pulpcore = response['pulpcore']
+
+    failure = Proxy::LogBuffer::Buffer.instance.info[:failed_modules][:pulpcore]
+
+    assert_equal 'failed', pulpcore['state'], failure
+    assert_equal "Disabling all modules in the group ['pulpcore'] due to a failure in one of them: Parameter 'content_app_url' is expected to have a non-empty value", failure
+  end
 end

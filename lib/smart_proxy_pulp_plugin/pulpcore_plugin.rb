@@ -1,5 +1,3 @@
-require 'smart_proxy_pulp_plugin/validators/pulp_url_validator'
-
 module PulpProxy
   class PulpcorePlugin < ::Proxy::Plugin
     plugin "pulpcore", ::PulpProxy::VERSION
@@ -7,7 +5,6 @@ module PulpProxy
                      :content_app_url => 'https://localhost:24816/',
                      :mirror => false
 
-    load_validators :url => ::PulpProxy::Validators::PulpUrlValidator
     validate :pulp_url, :url => true
     validate :content_app_url, :url => true
 
