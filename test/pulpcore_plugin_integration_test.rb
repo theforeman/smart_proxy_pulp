@@ -1,7 +1,9 @@
 require 'test_helper'
+require 'mocha/test_unit'
+require 'rack/test'
 require 'json'
 require 'root/root_v2_api'
-require 'smart_proxy_pulp_plugin/pulpcore_plugin'
+require 'smart_proxy_pulp'
 require 'smart_proxy_pulp_plugin/pulpcore_client'
 
 class PulpcoreFeaturesTest < Test::Unit::TestCase
