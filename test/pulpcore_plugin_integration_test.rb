@@ -15,8 +15,6 @@ class PulpcoreFeaturesTest < Test::Unit::TestCase
   end
 
   def test_features
-    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulp.yml').returns(enabled: true, pulp_url: 'http://pulp.example.com/foo')
-    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulpnode.yml').returns(enabled: true, pulp_url: 'http://pulpnode.example.com/foo')
     Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulpcore.yml').returns(enabled: true, pulp_url: 'http://pulpcore.example.com/foo', content_app_url: 'http://pulpcore.example.com:24816/')
     PulpProxy::PulpcoreClient.stubs(:capabilities).returns(['foo'])
 
@@ -39,8 +37,6 @@ class PulpcoreFeaturesTest < Test::Unit::TestCase
   end
 
   def test_features_with_optional_params
-    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulp.yml').returns(enabled: true, pulp_url: 'http://pulp.example.com/foo')
-    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulpnode.yml').returns(enabled: true, pulp_url: 'http://pulpnode.example.com/foo')
     Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulpcore.yml').returns(
       enabled: true,
       pulp_url: 'http://pulpcore.example.com/foo',
@@ -69,8 +65,6 @@ class PulpcoreFeaturesTest < Test::Unit::TestCase
   end
 
   def test_invalid_pulp_url
-    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulp.yml').returns(enabled: true, pulp_url: 'http://pulp.example.com/foo')
-    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulpnode.yml').returns(enabled: true, pulp_url: 'http://pulpnode.example.com/foo')
     Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulpcore.yml').returns(enabled: true, pulp_url: '')
 
     get '/features'
@@ -85,8 +79,6 @@ class PulpcoreFeaturesTest < Test::Unit::TestCase
   end
 
   def test_invalid_content_app_url
-    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulp.yml').returns(enabled: true, pulp_url: 'http://pulp.example.com/foo')
-    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulpnode.yml').returns(enabled: true, pulp_url: 'http://pulpnode.example.com/foo')
     Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulpcore.yml').returns(enabled: true, content_app_url: '')
 
     get '/features'
