@@ -28,6 +28,16 @@ The following parameters should be set:
 #:mirror: false
 ```
 
+### Settings
+
+#### client_authentication
+
+The setting client_authentication is an array of authentication types supported by the Pulp installation. The valid values are:
+
+ * password: username and password authentication
+ * client_certificate: This indicates whether the service handling authentication for Pulp allows matching the client certificates presented common name to some paired string, often hostname, and setting the remote user header.
+ * client_certificate_admin_only: This indicates the service handling authentication for Pulp allows matching only client certificates where the common name is set to 'admin'.
+
 ## Running the tests
 
 Run all tests
