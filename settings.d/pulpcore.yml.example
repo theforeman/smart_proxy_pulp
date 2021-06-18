@@ -5,3 +5,4 @@
 #:username: admin
 #:password: password
 #:mirror: false
+#:client_authentication: ['password', 'client_certificate']
