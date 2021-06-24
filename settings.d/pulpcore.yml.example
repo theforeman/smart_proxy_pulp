@@ -1,8 +1,22 @@
 ---
 :enabled: true
-#:pulp_url: https://localhost/
-#:content_app_url: https://localhost:24816/
+
+# The URL serving the pulpcore-api without any path
+#:pulp_url: https://localhost:24817/
+# Only set this if the container registry is present. This points to pulpcore-api.
+# Can also be set to true in which case it'll be derived from pulp_url
+#:container_registry_url: https://localhost:24817/pulpcore_registry
+# The content URL. This points to pulpcore-content
+#:content_app_url: https://localhost:24816/pulp/content
+
+# Expose which client authentication works. At least one is needed.
+# client_certificate and client_certificate_admin_only are mutually exclusive
+# Possible values
+#:client_authentication: ['password', 'client_certificate', 'client_certificate_admin_only']
+
+# Not needed in most production setups
 #:username: admin
 #:password: password
+
+# False implies it's a primary. There should only be one primary in your infra
 #:mirror: false
-#:client_authentication: ['password', 'client_certificate']
