@@ -1,13 +1,14 @@
 # Foreman Pulp Plugin
 
-Foreman project plugin for Pulp allowing Katello hosts to interact with Pulp application services for content management
-While this plugin is part of the Foreman project, it can only be used with Katello as Foreman is not content aware without the Katello plugin.
+Foreman project plugin for Pulp allowing Katello hosts to interact with Pulp application services for content management. While this plugin is part of the Foreman project, it can only be used with Katello as Foreman is not content aware without the Katello plugin.
 
 ## Getting Started
 
 The Foreman project provides documentation on this specific plugin installation from multiple methods, distribution specific RPM, distribution specific DEB and direct manual build from source.
-The plugin can also be installed as part of the foreman-installer puppet class with the "--[no-]enable-foreman-proxy-plugin-pulp" option.
-Documentation can be found here for how to install a stand alone smart proxy https://theforeman.org/manuals/latest/index.html#4.3.1SmartProxyInstallation
+
+The plugin can also be installed as part of the foreman-installer puppet class with the `--[no-]enable-foreman-proxy-plugin-pulp` option.
+
+For instructions to install a stand alone smart proxy, refer to the [documentation](https://theforeman.org/manuals/latest/index.html#4.3.1SmartProxyInstallation).
 
 ### Prerequisites
 
@@ -34,9 +35,9 @@ The following parameters should be set:
 
 The setting client_authentication is an array of authentication types supported by the Pulp installation. The valid values are:
 
- * password: username and password authentication
- * client_certificate: This indicates whether the service handling authentication for Pulp allows matching the client certificates presented common name to some paired string, often hostname, and setting the remote user header.
- * client_certificate_admin_only: This indicates the service handling authentication for Pulp allows matching only client certificates where the common name is set to 'admin'.
+ * `password`: username and password authentication
+ * `client_certificate`: This indicates whether the service handling authentication for Pulp allows matching the client certificate's presented common name to some paired string, often hostname, and setting the remote user header.
+ * `client_certificate_admin_only`: This indicates the service handling authentication for Pulp allows matching only client certificates where the common name is set to 'admin'.
 
 ## Running the tests
 
