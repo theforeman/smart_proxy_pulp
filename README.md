@@ -4,9 +4,7 @@ Foreman project plugin for Pulp allowing Katello hosts to interact with Pulp app
 
 ## Getting Started
 
-The Foreman project provides documentation on this specific plugin installation from multiple methods, distribution specific RPM, distribution specific DEB and direct manual build from source.
-
-The plugin can also be installed as part of the foreman-installer puppet class with the `--[no-]enable-foreman-proxy-plugin-pulp` option.
+The Foreman project provides [documentation](https://theforeman.org/plugins/#2.2Packageinstallation) on plugin installation from RPM and direct manual build from source.
 
 For instructions to install a stand alone smart proxy, refer to the [documentation](https://theforeman.org/manuals/latest/index.html#4.3.1SmartProxyInstallation).
 
