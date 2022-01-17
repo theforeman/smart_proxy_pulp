@@ -20,8 +20,6 @@ module PulpProxy
     expose_setting :pulp_url
     expose_setting :mirror
     expose_setting :content_app_url
-    expose_setting :username
-    expose_setting :password
     expose_setting :client_authentication
     expose_setting :rhsm_url
 
