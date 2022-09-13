@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.authors       = ['Dmitri Dolguikh']
   gem.email         = ['dmitri@redhat.com']
   gem.homepage      = "https://github.com/theforeman/smart-proxy-pulp-plugin"
-  gem.summary       = %q{Basic Pulp support for Foreman Smart-Proxy}
+  gem.summary       = 'Basic Pulp support for Foreman Smart-Proxy'
   gem.description   = <<-EOS
     Basic Pulp support for Foreman Smart-Proxy
   EOS
