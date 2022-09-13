@@ -11,7 +11,7 @@ module PulpProxy
       uri = URI.parse(pulp_url)
       req = Net::HTTP::Get.new(URI.join(uri.to_s.chomp('/') + '/', path))
       req.add_field('Accept', 'application/json')
-      self.http.request(req)
+      http.request(req)
     end
 
     def self.capabilities
