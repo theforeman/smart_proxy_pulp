@@ -15,7 +15,7 @@ class PulpcoreApiTest < Test::Unit::TestCase
     PulpProxy::PulpcoreApi.new
   end
 
-  def test_returns_pulp_status_on_200
+  def test_returns_pulp_status_on_200_ok
     PulpProxy::PulpcorePlugin.load_test_settings({})
     stub_request(:get, "#{::PulpProxy::PulpcorePlugin.settings.pulp_url}/pulp/api/v3/status/").to_return(:body => "{\"api_version\":\"3\"}")
     get '/status'

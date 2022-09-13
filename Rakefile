@@ -3,6 +3,9 @@
 require 'ci/reporter/rake/test_unit'
 require 'rake'
 require 'rake/testtask'
+require 'rubocop/rake_task'
+
+RuboCop::RakeTask.new
 
 desc 'Default: run unit tests.'
 task :default => :test
