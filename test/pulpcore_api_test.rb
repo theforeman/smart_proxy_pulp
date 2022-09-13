@@ -22,7 +22,7 @@ class PulpcoreApiTest < Test::Unit::TestCase
     assert_equal("{\"api_version\":\"3\"}", last_response.body)
   end
 
-  def test_returns_50X_on_connection_refused
+  def test_returns_50x_on_connection_refused
     Net::HTTP.any_instance.expects(:request).raises(Errno::ECONNREFUSED)
     get '/status'
     assert last_response.server_error?
@@ -30,7 +30,7 @@ class PulpcoreApiTest < Test::Unit::TestCase
     Net::HTTP.any_instance.unstub(:request)
   end
 
-  def test_returns_50X_on_socket_error
+  def test_returns_50x_on_socket_error
     Net::HTTP.any_instance.expects(:request).raises(SocketError)
     get '/status'
     assert last_response.server_error?
