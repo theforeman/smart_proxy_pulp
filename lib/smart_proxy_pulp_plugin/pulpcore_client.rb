@@ -17,7 +17,7 @@ module PulpProxy
     def self.capabilities
       body = JSON.parse(get("/pulp/api/v3/status/").body)
       body['versions'].map { |item| item['component'] }
-    rescue => e
+    rescue StandardError => e
       logger.error("Could not fetch capabilities: #{e.message}")
       []
     end
