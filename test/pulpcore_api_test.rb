@@ -15,7 +15,7 @@ class PulpcoreApiTest < Test::Unit::TestCase
 
   def test_returns_pulp_status_on_200
     PulpProxy::PulpcorePlugin.load_test_settings({})
-    stub_request(:get, "#{::PulpProxy::PulpcorePlugin.settings.pulp_url.to_s}/pulp/api/v3/status/").to_return(:body => "{\"api_version\":\"3\"}")
+    stub_request(:get, "#{::PulpProxy::PulpcorePlugin.settings.pulp_url}/pulp/api/v3/status/").to_return(:body => "{\"api_version\":\"3\"}")
     get '/status'
 
     assert last_response.ok?, "Last response was not ok: #{last_response.body}"
