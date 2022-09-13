@@ -9,7 +9,7 @@ module PulpProxy
   class PulpcoreClient
     def self.get(path)
       uri = URI.parse(pulp_url)
-      req = Net::HTTP::Get.new(URI.join(uri.to_s.chomp('/') + '/', path))
+      req = Net::HTTP::Get.new(URI.join("#{uri.to_s.chomp('/')}/", path))
       req.add_field('Accept', 'application/json')
       http.request(req)
     end
