@@ -20,11 +20,4 @@ Gem::Specification.new do |gem|
   gem.license = 'GPL-3.0'
 
   gem.required_ruby_version = '~> 2.5'
-
-  # todo: add a runtime dependency on smart-proxy
-  gem.add_development_dependency('test-unit', '~> 3')
-  gem.add_development_dependency('mocha', '~> 1')
-  gem.add_development_dependency('webmock', '~> 3')
-  gem.add_development_dependency('rack-test')
-  gem.add_development_dependency('rake', '~> 13')
 end
