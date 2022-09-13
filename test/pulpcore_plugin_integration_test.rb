@@ -21,7 +21,7 @@ class PulpcoreFeaturesTest < Test::Unit::TestCase
       enabled: true,
       pulp_url: 'http://pulpcore.example.com/foo',
       content_app_url: 'http://pulpcore.example.com:24816/',
-      rhsm_url: 'https://rhsm.example.com/rhsm'
+      rhsm_url: 'https://rhsm.example.com/rhsm',
     )
     PulpProxy::PulpcoreClient.stubs(:capabilities).returns(['foo'])
 
@@ -39,7 +39,7 @@ class PulpcoreFeaturesTest < Test::Unit::TestCase
       'password' => nil,
       'mirror' => false,
       'client_authentication' => ['password', 'client_certificate'],
-      'rhsm_url' => 'https://rhsm.example.com/rhsm'
+      'rhsm_url' => 'https://rhsm.example.com/rhsm',
     }
     assert_equal(expected_settings, pulpcore['settings'])
     assert_equal(['foo'], pulpcore['capabilities'])
