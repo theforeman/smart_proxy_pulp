@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PulpProxy
   module Validators
     class Include < ::Proxy::PluginValidators::Base

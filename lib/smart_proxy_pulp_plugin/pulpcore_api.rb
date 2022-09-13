@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'sinatra'
 require 'smart_proxy_pulp_plugin/pulpcore_client'
 

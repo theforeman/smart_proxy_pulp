@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test/unit"
 $: << File.join(File.dirname(__FILE__), '..', 'lib')
 
