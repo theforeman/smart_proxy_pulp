@@ -1,0 +1,23 @@
+---
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - 'master'
+      - '*-stable'
+
+concurrency:
+  group: ${{ github.ref_name }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  rubocop:
+    name: Rubocop
+    uses: theforeman/actions/.github/workflows/rubocop.yml@v0
+
+  test:
+    name: Ruby
+    needs: rubocop
+    uses: theforeman/actions/.github/workflows/smart_proxy_plugin.yml@v0
