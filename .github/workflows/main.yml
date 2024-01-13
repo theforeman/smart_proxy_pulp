@@ -1,0 +1,25 @@
+---
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - 'master'
+      - '*-stable'
+
+concurrency:
+  group: ${{ github.ref_name }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  rubocop:
+    name: Rubocop
+    uses: theforeman/actions/.github/workflows/rubocop.yml@v0
+
+  test:
+    name: Ruby
+    needs: rubocop
+    uses: theforeman/actions/.github/workflows/proxy_plugin.yml@proxy_plugin
+    with:
+      foreman_proxy_version: enter-the-matrix
