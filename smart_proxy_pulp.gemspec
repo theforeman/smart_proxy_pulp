@@ -11,7 +11,7 @@ Gem::Specification.new do |gem|
   gem.email         = ['dmitri@redhat.com']
   gem.homepage      = "https://github.com/theforeman/smart-proxy-pulp-plugin"
   gem.summary       = 'Basic Pulp support for Foreman Smart-Proxy'
-  gem.description   = 'Basic Pulp support for Foreman Smart-Proxy'
+  gem.description   = 'Plugin for Basic Pulp support for Foreman Smart-Proxy'
 
   gem.files         = Dir['{bundler.d,lib,settings.d}/**/*', 'LICENSE', 'Gemfile']
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
