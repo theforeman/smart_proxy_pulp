@@ -18,6 +18,7 @@ module PulpProxy
     validate :content_app_url, :url => true
     validate :client_authentication, :include => AUTH_TYPES
     validate :rhsm_url, :url => true
+    validate :ssl_ca, :file_readable => true
 
     expose_setting :pulp_url
     expose_setting :mirror

@@ -7,3 +7,4 @@
 #:mirror: false
 #:client_authentication: ['password', 'client_certificate']
 #:rhsm_url: https://localhost/rhsm
+#:ssl_ca: /etc/ssl/certs/custom_ca.crt
