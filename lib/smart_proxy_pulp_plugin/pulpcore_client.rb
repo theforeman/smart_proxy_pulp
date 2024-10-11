@@ -27,9 +27,13 @@ module PulpProxy
     end
 
     def self.http
+      ssl_ca = ::PulpProxy::PulpcorePlugin.settings.ssl_ca ||
+               ::Proxy::SETTINGS.foreman_ssl_ca ||
+               ::Proxy::SETTINGS.ssl_ca_file
       uri = URI.parse(pulp_url)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = uri.scheme == 'https'
+      http.ca_file = ssl_ca if http.use_ssl? && ssl_ca && !ssl_ca.empty?
       http
     end
 
