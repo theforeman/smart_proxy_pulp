@@ -11,7 +11,7 @@ module PulpProxy
                      :client_authentication => ['password', 'client_certificate'],
                      :rhsm_url => 'https://localhost/rhsm'
 
-    AUTH_TYPES = ['password', 'client_certificate', 'client_certificate_admin_only'].freeze
+    AUTH_TYPES = ['password', 'client_certificate'].freeze
 
     load_validators include: ::PulpProxy::Validators::Include
     validate :pulp_url, :url => true

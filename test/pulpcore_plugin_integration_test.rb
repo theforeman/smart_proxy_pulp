@@ -115,7 +115,7 @@ class PulpcoreFeaturesTest < Test::Unit::TestCase
     failure = Proxy::LogBuffer::Buffer.instance.info[:failed_modules][:pulpcore]
 
     assert_equal 'failed', pulpcore['state'], failure
-    assert_equal "Disabling all modules in the group ['pulpcore'] due to a failure in one of them: Parameter 'client_authentication' is expected to be one or more of [\"password\", \"client_certificate\", \"client_certificate_admin_only\"]", failure
+    assert_equal "Disabling all modules in the group ['pulpcore'] due to a failure in one of them: Parameter 'client_authentication' is expected to be one or more of [\"password\", \"client_certificate\"]", failure
   end
 
   def test_invalid_rhsm_url
