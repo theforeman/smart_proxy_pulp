@@ -16,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.files         = Dir['{bundler.d,lib,settings.d}/**/*', 'LICENSE', 'Gemfile']
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
-  gem.license = 'GPL-3.0'
+  gem.license = 'GPL-3.0-only'
 
   gem.required_ruby_version = '>= 2.7', '< 4'
 end
