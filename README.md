@@ -22,8 +22,9 @@ The following parameters should be set:
 ```yaml
 ---
 :enabled: true
-#:pulp_url: https://localhost/
-#:content_app_url: https://localhost:24816/
+:pulp_url: https://pulp.example.com/
+:content_app_url: https://pulp.example.com/pulp/content
+:rhsm_url: https://rhsm.example.com/rhsm/
 #:mirror: false
 ```
 

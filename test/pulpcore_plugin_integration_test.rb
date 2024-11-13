@@ -8,6 +8,7 @@ require 'root/root_v2_api'
 require 'smart_proxy_pulp'
 require 'smart_proxy_pulp_plugin/pulpcore_client'
 
+# rubocop:disable Metrics/ClassLength
 class PulpcoreFeaturesTest < Test::Unit::TestCase
   include Rack::Test::Methods
 
@@ -77,7 +78,12 @@ class PulpcoreFeaturesTest < Test::Unit::TestCase
   end
 
   def test_invalid_pulp_url
-    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulpcore.yml').returns(enabled: true, pulp_url: '')
+    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulpcore.yml').returns(
+      enabled: true,
+      pulp_url: '',
+      content_app_url: 'http://pulpcore.example.com:24816/',
+      rhsm_url: 'https://rhsm.example.com/rhsm',
+    )
 
     get '/features'
     assert last_response.ok?, "Last response was not ok: #{last_response.body}"
@@ -87,11 +93,16 @@ class PulpcoreFeaturesTest < Test::Unit::TestCase
     failure = Proxy::LogBuffer::Buffer.instance.info[:failed_modules][:pulpcore]
 
     assert_equal 'failed', pulpcore['state'], failure
-    assert_equal "Disabling all modules in the group ['pulpcore'] due to a failure in one of them: Parameter 'pulp_url' is expected to have a non-empty value", failure
+    assert_equal "Disabling all modules in the group ['pulpcore'] due to a failure in one of them: Setting 'pulp_url' is expected to contain a url", failure
   end
 
   def test_invalid_content_app_url
-    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulpcore.yml').returns(enabled: true, content_app_url: '')
+    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulpcore.yml').returns(
+      enabled: true,
+      pulp_url: 'http://pulpcore.example.com/',
+      content_app_url: '',
+      rhsm_url: 'https://rhsm.example.com/rhsm',
+    )
 
     get '/features'
     assert last_response.ok?, "Last response was not ok: #{last_response.body}"
@@ -101,11 +112,17 @@ class PulpcoreFeaturesTest < Test::Unit::TestCase
     failure = Proxy::LogBuffer::Buffer.instance.info[:failed_modules][:pulpcore]
 
     assert_equal 'failed', pulpcore['state'], failure
-    assert_equal "Disabling all modules in the group ['pulpcore'] due to a failure in one of them: Parameter 'content_app_url' is expected to have a non-empty value", failure
+    assert_equal "Disabling all modules in the group ['pulpcore'] due to a failure in one of them: Setting 'content_app_url' is expected to contain a url", failure
   end
 
   def test_invalid_client_authentication
-    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulpcore.yml').returns(enabled: true, client_authentication: ['fake_auth_type'])
+    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulpcore.yml').returns(
+      enabled: true,
+      pulp_url: 'http://pulpcore.example.com/',
+      content_app_url: 'http://pulpcore.example.com/pulp/content',
+      rhsm_url: 'https://rhsm.example.com/rhsm',
+      client_authentication: ['fake_auth_type'],
+    )
 
     get '/features'
     assert last_response.ok?, "Last response was not ok: #{last_response.body}"
@@ -119,7 +136,12 @@ class PulpcoreFeaturesTest < Test::Unit::TestCase
   end
 
   def test_invalid_rhsm_url
-    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulpcore.yml').returns(enabled: true, rhsm_url: '')
+    Proxy::DefaultModuleLoader.any_instance.expects(:load_configuration_file).with('pulpcore.yml').returns(
+      enabled: true,
+      pulp_url: 'http://pulpcore.example.com/',
+      content_app_url: 'http://pulpcore.example.com/pulp/content',
+      rhsm_url: '',
+    )
 
     get '/features'
     assert last_response.ok?, "Last response was not ok: #{last_response.body}"
@@ -129,6 +151,7 @@ class PulpcoreFeaturesTest < Test::Unit::TestCase
     failure = Proxy::LogBuffer::Buffer.instance.info[:failed_modules][:pulpcore]
 
     assert_equal 'failed', pulpcore['state'], failure
-    assert_equal "Disabling all modules in the group ['pulpcore'] due to a failure in one of them: Parameter 'rhsm_url' is expected to have a non-empty value", failure
+    assert_equal "Disabling all modules in the group ['pulpcore'] due to a failure in one of them: Setting 'rhsm_url' is expected to contain a url", failure
   end
 end
+# rubocop:enable Metrics/ClassLength

@@ -5,11 +5,8 @@ require 'smart_proxy_pulp_plugin/validators'
 module PulpProxy
   class PulpcorePlugin < ::Proxy::Plugin
     plugin "pulpcore", ::PulpProxy::VERSION
-    default_settings :pulp_url => 'https://localhost',
-                     :content_app_url => 'https://localhost:24816/',
-                     :mirror => false,
-                     :client_authentication => ['password', 'client_certificate'],
-                     :rhsm_url => 'https://localhost/rhsm'
+    default_settings :mirror => false,
+                     :client_authentication => ['password', 'client_certificate']
 
     AUTH_TYPES = ['password', 'client_certificate'].freeze
 
